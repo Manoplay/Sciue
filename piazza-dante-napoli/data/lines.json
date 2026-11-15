@@ -1,0 +1,9 @@
+{
+  "demo": true,
+  "note": "Linee disponibili nel menu Trasporti. Posizioni e passaggi sono dimostrativi: 'position' è [longitudine, latitudine], 'everyMin' la frequenza e 'offsetMin' lo sfasamento rispetto all'ora piena.",
+  "lines": [
+    { "id": "169", "position": [14.2497, 40.8462], "everyMin": 14, "offsetMin": 3 },
+    { "id": "130", "position": [14.2455, 40.8372], "everyMin": 18, "offsetMin": 7 },
+    { "id": "182", "position": [14.2405, 40.8452], "everyMin": 20, "offsetMin": 11 }
+  ]
+}

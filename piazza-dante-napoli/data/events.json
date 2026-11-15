@@ -1,0 +1,39 @@
+{
+  "demo": true,
+  "note": "Eventi di esempio: sostituiscili con la fonte reale. 'dayOffset' è il numero di giorni da oggi. Le foto arrivano da Wikimedia Commons e richiedono il credito indicato in 'credit' (licenze CC BY-SA).",
+  "events": [
+    {
+      "id": "piazza-dante",
+      "title": "Evento di esempio: concerto in piazza",
+      "description": "Segnaposto per la descrizione: programma, artisti, modalità di accesso.",
+      "place": "Piazza Dante",
+      "time": "21:00",
+      "dayOffset": 1,
+      "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Piazza%20Dante%20(Naples).jpg?width=640",
+      "photoAlt": "Piazza Dante a Napoli, con il monumento a Dante al centro e il Foro Carolino sullo sfondo",
+      "credit": { "text": "IlSistemone, CC BY-SA 3.0", "url": "https://commons.wikimedia.org/wiki/File:Piazza_Dante_(Naples).jpg" }
+    },
+    {
+      "id": "teatro-bellini",
+      "title": "Evento di esempio: spettacolo teatrale",
+      "description": "Segnaposto per la descrizione: spettacolo, compagnia, biglietti.",
+      "place": "Teatro Bellini",
+      "time": "20:30",
+      "dayOffset": 3,
+      "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/TeatroBelliniNaples1.jpg?width=640",
+      "photoAlt": "Il Teatro Bellini di Napoli",
+      "credit": { "text": "IlSistemone, CC BY-SA 3.0", "url": "https://commons.wikimedia.org/wiki/File:TeatroBelliniNaples1.jpg" }
+    },
+    {
+      "id": "teatro-san-carlo",
+      "title": "Evento di esempio: serata d’opera",
+      "description": "Segnaposto per la descrizione: titolo, interpreti, prenotazione.",
+      "place": "Teatro di San Carlo",
+      "time": "19:00",
+      "dayOffset": 5,
+      "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Napoli%20-%20teatro%20di%20San%20Carlo.jpg?width=640",
+      "photoAlt": "Il Teatro di San Carlo a Napoli",
+      "credit": { "text": "Udine2812, CC BY-SA 4.0", "url": "https://commons.wikimedia.org/wiki/File:Napoli_-_teatro_di_San_Carlo.jpg" }
+    }
+  ]
+}

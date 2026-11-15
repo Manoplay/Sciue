@@ -1,0 +1,9 @@
+{
+  "demo": true,
+  "note": "Disponibilità dimostrativa. 'availability' accetta: elevata, media, scarsa.",
+  "areas": [
+    { "id": "montesanto", "area": "Montesanto", "position": [14.2462, 40.8478], "availability": "elevata" },
+    { "id": "beverello", "area": "Molo Beverello", "position": [14.2548, 40.838], "availability": "scarsa" },
+    { "id": "plebiscito", "area": "Piazza del Plebiscito", "position": [14.2478, 40.8372], "availability": "media" }
+  ]
+}

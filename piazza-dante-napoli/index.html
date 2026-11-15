@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Piazza Dante, Napoli — mappa della città</title>
+  <meta name="description" content="Mappa 3D interattiva di Piazza Dante a Napoli con affluenza, trasporti, parcheggi ed eventi.">
+  <meta name="theme-color" content="#12A0D7">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%2312A0D7' stroke='%2315191C' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="preload" href="fonts/SNR.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="vendor/maplibre-gl.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body data-view="home">
+  <a class="skip-link" href="#contenuto">Salta al contenuto</a>
+
+  <header class="topbar">
+    <section class="conditions" aria-label="Meteo, data e ora">
+      <svg class="conditions__icon" id="weather-icon" aria-hidden="true"><use href="#icon-weather-unknown"></use></svg>
+      <p class="conditions__temp" id="weather-temp">–</p>
+      <p class="conditions__date"><time id="clock-date"></time></p>
+      <p class="conditions__time"><time id="clock-time"></time></p>
+      <p class="visually-hidden" id="weather-summary" role="status"></p>
+    </section>
+
+    <div class="topbar__center">
+      <form class="search" id="search" role="search">
+        <label class="visually-hidden" for="search-input" id="search-label">Cerca un luogo</label>
+        <input class="search__input" id="search-input" type="text" role="combobox"
+               placeholder="Cerca un luogo…" autocomplete="off" spellcheck="false"
+               aria-autocomplete="list" aria-expanded="false" aria-controls="search-list">
+        <ul class="search__list" id="search-list" role="listbox" aria-labelledby="search-label" hidden></ul>
+        <p class="search__status" id="search-status" role="status"></p>
+      </form>
+
+      <nav aria-label="Sezioni">
+        <ul class="sections">
+          <li><a class="sections__link" href="#parcheggio" data-view-link="parcheggio">Parcheggio</a></li>
+          <li><a class="sections__link" href="#eventi" data-view-link="eventi">Eventi</a></li>
+          <li><a class="sections__link" href="#trasporti" data-view-link="trasporti">Trasporti</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="account">
+      <button class="account__button" id="account-button" type="button"
+              aria-expanded="false" aria-controls="account-panel" aria-label="Account utente">
+        <svg aria-hidden="true"><use href="#icon-user"></use></svg>
+      </button>
+      <div class="popover account__panel" id="account-panel" hidden>
+        <p class="popover__title">Account</p>
+        <p>L’accesso non è ancora collegato in questa versione.</p>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenuto" tabindex="-1">
+    <h1 class="visually-hidden">Piazza Dante, Napoli</h1>
+    <p class="visually-hidden" id="view-status" role="status"></p>
+
+    <div id="map" class="map"></div>
+    <p id="map-error" class="map-error" role="alert" hidden></p>
+
+    <section class="events" id="events-section" aria-labelledby="events-title" hidden>
+      <div class="events__head">
+        <h2 id="events-title">Eventi in zona</h2>
+        <span class="demo-tag">Dati dimostrativi</span>
+      </div>
+      <ol class="events__list" id="events-list"></ol>
+      <p class="events__message" id="events-message" role="status" hidden></p>
+    </section>
+  </main>
+
+  <div class="dock">
+    <div class="tools" data-dock="tools">
+      <div class="tools__panels">
+        <section class="popover" id="heat-panel" aria-labelledby="heat-title" hidden>
+          <div class="popover__head">
+            <p class="popover__title" id="heat-title">Affluenza in Piazza Dante</p>
+            <span class="demo-tag" id="heat-source">Simulazione</span>
+          </div>
+          <p class="heat-level"><strong id="heat-level">–</strong> <span id="heat-percent"></span></p>
+          <div class="heat-scale" id="heat-scale" aria-hidden="true"></div>
+          <p class="heat-scale__labels" aria-hidden="true"><span>Bassa</span><span>Alta</span></p>
+        </section>
+
+        <section class="popover" id="traffic-panel" aria-labelledby="traffic-title" hidden>
+          <div class="popover__head">
+            <p class="popover__title" id="traffic-title">Previsione traffico</p>
+            <span class="demo-tag">Simulazione</span>
+          </div>
+          <fieldset class="segmented">
+            <legend class="visually-hidden">Orizzonte della previsione</legend>
+            <label><input type="radio" name="traffic-horizon" value="0" checked><span>Adesso</span></label>
+            <label><input type="radio" name="traffic-horizon" value="1"><span>+30 min</span></label>
+            <label><input type="radio" name="traffic-horizon" value="2"><span>+1 h</span></label>
+          </fieldset>
+          <ul class="legend">
+            <li><span class="legend__swatch legend__swatch--free"></span>Scorrevole</li>
+            <li><span class="legend__swatch legend__swatch--busy"></span>Intenso</li>
+            <li><span class="legend__swatch legend__swatch--jam"></span>Congestionato</li>
+          </ul>
+        </section>
+      </div>
+
+      <button class="tool" id="heat-toggle" type="button" aria-pressed="false" aria-controls="heat-panel" disabled>
+        <span lang="en">Heat map</span><span class="tool__state" id="heat-state">off</span>
+      </button>
+      <button class="tool" id="traffic-toggle" type="button" aria-pressed="false" aria-controls="traffic-panel" disabled>
+        <span lang="en">Traffic prediction</span><span class="tool__state" id="traffic-state">off</span>
+      </button>
+    </div>
+
+    <div class="air" data-dock="status">
+      <div class="popover air__panel" id="air-panel" hidden>
+        <div class="popover__head">
+          <p class="popover__title">Qualità dell’aria</p>
+          <span class="demo-tag" id="air-tag" hidden>Dimostrativo</span>
+        </div>
+        <dl class="air__details" id="air-details"></dl>
+        <p class="air__note" id="air-note"></p>
+      </div>
+      <button class="tool tool--air" id="air-button" type="button" aria-expanded="false" aria-controls="air-panel">
+        <svg class="air__icon" id="air-icon" aria-hidden="true"><use href="#icon-air-unknown"></use></svg>
+        <span lang="en">Air quality</span>
+        <span class="tool__state" id="air-state">–</span>
+      </button>
+    </div>
+
+    <section class="alerts" data-dock="status" aria-labelledby="alerts-title">
+      <svg class="alerts__icon" aria-hidden="true"><use href="#icon-alert"></use></svg>
+      <div>
+        <h2 id="alerts-title" lang="en">Alerts</h2>
+        <ul class="alerts__list" id="alerts-list" aria-live="polite"></ul>
+      </div>
+    </section>
+  </div>
+
+  <footer class="attribution">
+    Mappa © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ·
+    <a href="https://openfreemap.org">OpenFreeMap</a> ·
+    Meteo <a href="https://open-meteo.com">Open-Meteo</a>
+  </footer>
+
+  <template id="event-template">
+    <li>
+      <article class="event">
+        <div class="event__photo">
+          <svg aria-hidden="true"><use href="#icon-photo"></use></svg>
+          <span>Foto</span>
+        </div>
+        <div class="event__body">
+          <h3 class="event__title" data-field="title"></h3>
+          <p class="event__text" data-field="description"></p>
+          <p class="event__place" data-field="place"></p>
+          <p class="event__when">
+            <span><svg aria-hidden="true"><use href="#icon-clock"></use></svg><span class="visually-hidden">Ora:</span> <time data-field="time"></time></span>
+            <span><svg aria-hidden="true"><use href="#icon-calendar"></use></svg><span class="visually-hidden">Giorno:</span> <time data-field="day"></time></span>
+          </p>
+          <p class="event__credit" hidden>Foto: <a data-field="credit"></a></p>
+        </div>
+      </article>
+    </li>
+  </template>
+
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.6-3.6 4.4-5.4 8-5.4s6.4 1.8 8 5.4"/></symbol>
+    <symbol id="icon-alert" viewBox="0 0 24 24"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17.2v.3"/></symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/></symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></symbol>
+    <symbol id="icon-photo" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="m4 18 5.2-5 3.6 3.2 2.6-2.4L20 18"/></symbol>
+    <symbol id="icon-weather-clear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3 7 7M17 17l1.7 1.7M5.3 18.7 7 17M17 7l1.7-1.7"/></symbol>
+    <symbol id="icon-weather-cloud" viewBox="0 0 24 24"><path d="M7 18.5a4.2 4.2 0 0 1-.5-8.4 5.6 5.6 0 0 1 10.8 1.2 3.7 3.7 0 0 1 .2 7.2z"/></symbol>
+    <symbol id="icon-weather-rain" viewBox="0 0 24 24"><path d="M7 15.5a4.2 4.2 0 0 1-.5-8.4 5.6 5.6 0 0 1 10.8 1.2 3.7 3.7 0 0 1 .2 7.2z"/><path d="M8.5 18.5 7.6 21M12.5 18.5l-.9 2.5M16.5 18.5l-.9 2.5"/></symbol>
+    <symbol id="icon-weather-storm" viewBox="0 0 24 24"><path d="M7 15a4.2 4.2 0 0 1-.5-8.4 5.6 5.6 0 0 1 10.8 1.2 3.7 3.7 0 0 1 .2 7.2z"/><path d="m12.6 13-2.4 4h3.2l-2.2 4"/></symbol>
+    <symbol id="icon-weather-fog" viewBox="0 0 24 24"><path d="M7 13.5a4.2 4.2 0 0 1-.5-8.4 5.6 5.6 0 0 1 10.8 1.2 3.7 3.7 0 0 1 .2 7.2z"/><path d="M4.5 17h15M7 20.5h10"/></symbol>
+    <symbol id="icon-weather-snow" viewBox="0 0 24 24"><path d="M7 14.5a4.2 4.2 0 0 1-.5-8.4 5.6 5.6 0 0 1 10.8 1.2 3.7 3.7 0 0 1 .2 7.2z"/><path d="M8 18v.3M12 18v.3M16 18v.3M10 21v.3M14 21v.3"/></symbol>
+    <symbol id="icon-air-good" viewBox="0 0 24 24"><path d="M5 19C5 10.5 10 5.6 19.5 5c0 9-4.3 14-12.5 14z"/><path d="M5 19c2-4.2 5.2-7.3 9.5-9.5"/></symbol>
+    <symbol id="icon-air-fair" viewBox="0 0 24 24"><path d="M3 9h10.5A2.5 2.5 0 1 0 11 6.5"/><path d="M3 13h15.5a2.5 2.5 0 1 1-2.5 2.5"/><path d="M3 17h7"/></symbol>
+    <symbol id="icon-air-poor" viewBox="0 0 24 24"><path d="M7 13.5a4.2 4.2 0 0 1-.5-8.4 5.6 5.6 0 0 1 10.8 1.2 3.7 3.7 0 0 1 .2 7.2z"/><path d="M5 17h4M12 17h7M7.5 20.5h9"/></symbol>
+    <symbol id="icon-air-bad" viewBox="0 0 24 24"><path d="M5 8.5c2.3 1.1 4.6 1.6 7 1.6s4.7-.5 7-1.6v5.2c0 3.1-3 5.6-7 5.6s-7-2.5-7-5.6z"/><path d="M5 10.5 2.5 9M19 10.5 21.5 9M9 13.5h6M9.5 16h5"/></symbol>
+    <symbol id="icon-air-unknown" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12h7"/></symbol>
+    <symbol id="icon-weather-unknown" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12h7"/></symbol>
+  </svg>
+</body>
+</html>

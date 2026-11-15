@@ -1,0 +1,25 @@
+{
+  "note": "Luoghi suggeriti dalla barra di ricerca. Coordinate [longitudine, latitudine] approssimate.",
+  "places": [
+    { "id": "piazza-dante", "name": "Piazza Dante", "position": [14.2502, 40.8492] },
+    { "id": "port-alba", "name": "Port’Alba", "position": [14.251, 40.8496] },
+    { "id": "piazza-bellini", "name": "Piazza Bellini", "position": [14.2521, 40.8497] },
+    { "id": "teatro-bellini", "name": "Teatro Bellini", "position": [14.2512, 40.8513] },
+    { "id": "museo-archeologico", "name": "Museo Archeologico Nazionale", "position": [14.2505, 40.8535] },
+    { "id": "piazza-cavour", "name": "Piazza Cavour", "position": [14.2545, 40.8555] },
+    { "id": "montesanto", "name": "Montesanto", "position": [14.2452, 40.8478] },
+    { "id": "gesu-nuovo", "name": "Piazza del Gesù Nuovo", "position": [14.2518, 40.8474] },
+    { "id": "duomo", "name": "Duomo di Napoli", "position": [14.2596, 40.8525] },
+    { "id": "toledo", "name": "Via Toledo", "position": [14.2488, 40.8427] },
+    { "id": "quartieri-spagnoli", "name": "Quartieri Spagnoli", "position": [14.2462, 40.8425] },
+    { "id": "piazza-municipio", "name": "Piazza Municipio", "position": [14.252, 40.84] },
+    { "id": "castel-nuovo", "name": "Castel Nuovo (Maschio Angioino)", "position": [14.2527, 40.8385] },
+    { "id": "galleria-umberto", "name": "Galleria Umberto I", "position": [14.2495, 40.8385] },
+    { "id": "san-carlo", "name": "Teatro di San Carlo", "position": [14.2496, 40.8375] },
+    { "id": "plebiscito", "name": "Piazza del Plebiscito", "position": [14.2487, 40.8358] },
+    { "id": "molo-beverello", "name": "Molo Beverello", "position": [14.2553, 40.8372] },
+    { "id": "castel-dell-ovo", "name": "Castel dell’Ovo", "position": [14.2476, 40.8283] },
+    { "id": "castel-sant-elmo", "name": "Castel Sant’Elmo", "position": [14.239, 40.8436] },
+    { "id": "stazione-centrale", "name": "Stazione Centrale (Piazza Garibaldi)", "position": [14.2726, 40.8527] }
+  ]
+}
